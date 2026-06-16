@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Performance Predictor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <i class="fas fa-graduation-cap"></i>
+      <span>EduPredict</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="active"><i class="fas fa-chart-line"></i> Predictor</a>
+      <a href="#"><i class="fas fa-info-circle"></i> About</a>
+    </div>
+    <div class="nav-user">
+      <div class="avatar">S</div>
+      <span>Student</span>
+    </div>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Quick Stats</div>
+
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+        <div class="stat-info">
+          <span class="stat-num">1,000</span>
+          <span class="stat-label">Training Records</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-info">
+          <span class="stat-num">98%</span>
+          <span class="stat-label">Model Accuracy</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon purple"><i class="fas fa-brain"></i></div>
+        <div class="stat-info">
+          <span class="stat-num">Random</span>
+          <span class="stat-label">Forest Classifier</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon orange"><i class="fas fa-layer-group"></i></div>
+        <div class="stat-info">
+          <span class="stat-num">5</span>
+          <span class="stat-label">Input Features</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Grade Scale</div>
+        <div class="grade-scale">
+          <div class="gs-row"><span class="gs-badge a">A</span><span>Excellent (85–100)</span></div>
+          <div class="gs-row"><span class="gs-badge b">B</span><span>Good (70–84)</span></div>
+          <div class="gs-row"><span class="gs-badge c">C</span><span>Average (55–69)</span></div>
+          <div class="gs-row"><span class="gs-badge d">D</span><span>Below Avg (40–54)</span></div>
+          <div class="gs-row"><span class="gs-badge f">F</span><span>Fail (Below 40)</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <!-- PAGE HEADER -->
+      <div class="page-header">
+        <div>
+          <h1>Academic Performance Predictor</h1>
+          <p>Enter your academic details below and let AI predict your grade</p>
+        </div>
+        <div class="header-badge">
+          <i class="fas fa-robot"></i> AI Powered
+        </div>
+      </div>
+
+      <!-- FORM CARD -->
+      <div class="form-card">
+        <div class="form-card-header">
+          <i class="fas fa-pen-to-square"></i>
+          <h2>Student Information Form</h2>
+        </div>
+
+        <form method="POST" id="predForm">
+          <div class="form-grid">
+
+            <div class="input-group">
+              <label for="study"><i class="fas fa-book-open"></i> Study Hours Per Day</label>
+              <div class="input-wrap">
+                <input type="number" id="study" name="study" min="1" max="8"
+                       value="{{ values.study or '' }}" placeholder="Enter hours (1 - 8)" required/>
+                <span class="input-unit">hrs / day</span>
+              </div>
+              <small>How many hours do you study daily?</small>
+            </div>
+
+            <div class="input-group">
+              <label for="attendance"><i class="fas fa-calendar-check"></i> Attendance Percentage</label>
+              <div class="input-wrap">
+                <input type="number" id="attendance" name="attendance" min="50" max="100"
+                       value="{{ values.attendance or '' }}" placeholder="Enter % (50 - 100)" required/>
+                <span class="input-unit">%</span>
+              </div>
+              <small>Your class attendance percentage</small>
+            </div>
+
+            <div class="input-group">
+              <label for="assignments"><i class="fas fa-file-alt"></i> Assignments Completed</label>
+              <div class="input-wrap">
+                <input type="number" id="assignments" name="assignments" min="1" max="10"
+                       value="{{ values.assignments or '' }}" placeholder="Enter count (1 - 10)" required/>
+                <span class="input-unit">/ 10</span>
+              </div>
+              <small>Number of assignments submitted</small>
+            </div>
+
+            <div class="input-group">
+              <label for="marks"><i class="fas fa-star"></i> Previous Semester Marks</label>
+              <div class="input-wrap">
+                <input type="number" id="marks" name="marks" min="35" max="100"
+                       value="{{ values.marks or '' }}" placeholder="Enter marks (35 - 100)" required/>
+                <span class="input-unit">/ 100</span>
+              </div>
+              <small>Your last semester score</small>
+            </div>
+
+            <div class="input-group full">
+              <label for="participation"><i class="fas fa-hand-raised"></i> Class Participation</label>
+              <div class="input-wrap">
+                <input type="number" id="participation" name="participation" min="1" max="10"
+                       value="{{ values.participation or '' }}" placeholder="Enter score (1 - 10)" required/>
+                <span class="input-unit">/ 10</span>
+              </div>
+              <small>How actively do you participate in class?</small>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-reset" onclick="window.location.href='/'"><i class="fas fa-rotate-left"></i> Reset</button>
+            <button type="submit" class="btn-submit"><i class="fas fa-bolt"></i> Predict Grade</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- RESULT -->
+      {% if prediction %}
+      {% if prediction == 'A' %}
+        {% set rclass='res-a' %} {% set ricon='fa-trophy' %} {% set rtitle='Excellent Performance!' %}
+        {% set rmsg='Outstanding! You are among the top performers. Keep maintaining this excellent work.' %}
+        {% set rpct='95' %}
+      {% elif prediction == 'B' %}
+        {% set rclass='res-b' %} {% set ricon='fa-thumbs-up' %} {% set rtitle='Good Performance!' %}
+        {% set rmsg='Great job! You are performing well. A little more effort will get you to the top.' %}
+        {% set rpct='78' %}
+      {% elif prediction == 'C' %}
+        {% set rclass='res-c' %} {% set ricon='fa-chart-bar' %} {% set rtitle='Average Performance' %}
+        {% set rmsg='You are at an average level. Focus more on weak subjects and attend extra classes.' %}
+        {% set rpct='60' %}
+      {% elif prediction == 'D' %}
+        {% set rclass='res-d' %} {% set ricon='fa-triangle-exclamation' %} {% set rtitle='Below Average' %}
+        {% set rmsg='Needs improvement. Consider seeking help from teachers and increasing study hours.' %}
+        {% set rpct='42' %}
+      {% else %}
+        {% set rclass='res-f' %} {% set ricon='fa-circle-xmark' %} {% set rtitle='At Risk of Failing' %}
+        {% set rmsg='Immediate action required. Please contact your academic advisor right away.' %}
+        {% set rpct='20' %}
+      {% endif %}
+
+      <div class="result-card {{ rclass }}">
+        <div class="result-left">
+          <div class="result-grade-box">
+            <span class="result-grade">{{ prediction }}</span>
+            <span class="result-grade-label">Predicted Grade</span>
+          </div>
+        </div>
+        <div class="result-right">
+          <div class="result-heading">
+            <i class="fas {{ ricon }}"></i>
+            <h3>{{ rtitle }}</h3>
+          </div>
+          <p class="result-msg">{{ rmsg }}</p>
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span>Performance Score</span>
+              <span>{{ rpct }}%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: {{ rpct }}%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span>© 2025 EduPredict &nbsp;|&nbsp; Built with Flask & Scikit-learn &nbsp;|&nbsp; Random Forest Classifier</span>
+  </footer>
+
+</body>
+</html>

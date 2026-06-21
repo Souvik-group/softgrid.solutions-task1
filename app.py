@@ -41,7 +41,27 @@ def home():
         pred_enc = model.predict(input_df)[0]
         prediction = label_encoder.inverse_transform([pred_enc])[0]
 
-    return render_template("index.html", prediction=prediction, values=values)
+    # Load precomputed evaluation metrics from the training run (if available)
+    metrics = payload.get("metrics", {
+        "accuracy": "N/A",
+        "mae": "N/A",
+        "mse": "N/A",
+        "r2": "N/A",
+    })
+
+    # Format metrics for display
+    if isinstance(metrics.get("accuracy"), (int, float)):
+        metrics["accuracy"] = f"{metrics['accuracy'] * 100:.2f}%"
+    else:
+        metrics["accuracy"] = str(metrics.get("accuracy", "N/A"))
+
+    for key in ("mae", "mse", "r2"):
+        if isinstance(metrics.get(key), (int, float)):
+            metrics[key] = f"{metrics[key]:.4f}"
+        else:
+            metrics[key] = str(metrics.get(key, "N/A"))
+
+    return render_template("index.html", prediction=prediction, values=values, metrics=metrics)
 
 
 if __name__ == "__main__":

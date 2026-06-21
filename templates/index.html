@@ -185,6 +185,13 @@
       {% endif %}
 
       <div class="result-card {{ rclass }}">
+        <div class="metrics-card">
+          <div class="metric-row"><span class="metric-label">Accuracy</span><span class="metric-value">{{ metrics.accuracy }}</span></div>
+          <div class="metric-row"><span class="metric-label">MAE</span><span class="metric-value">{{ metrics.mae }}</span></div>
+          <div class="metric-row"><span class="metric-label">MSE</span><span class="metric-value">{{ metrics.mse }}</span></div>
+          <div class="metric-row"><span class="metric-label">R²</span><span class="metric-value">{{ metrics.r2 }}</span></div>
+        </div>
+
         <div class="result-left">
           <div class="result-grade-box">
             <span class="result-grade">{{ prediction }}</span>
